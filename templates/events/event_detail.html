@@ -1,0 +1,99 @@
+{% extends 'base/base.html' %}
+{% block title %}Event Detail{% endblock title %}
+{% block breadcrumb %}Event Detail{% endblock breadcrumb %}
+
+{% block extrahead %}
+    {% load static %}
+    <style>
+        @font-face { font-family: JuneBug; src: url({% static 'fonts/Minion-Regular.ttf' %}); }
+        span {
+            font-size: 20px;
+        }
+         button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+{% endblock extrahead %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h5>Event Detail</h5>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-success" href="{% url 'event-list' %}">Event List</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <img src="{{ event.eventimage.image.url }}" alt="Image" height="500px" width="100%">
+                    <div class="row">
+                        <div class="com-md-6">
+                            <table class="table">
+                                <tr>
+                                    <td><span>Event Name: {{ event.name }}</span></td>
+                                    <td><span>Event Category: {{ event.category }}</span></td>
+                                    <td><span>Start Date: {{ event.start_date }}</span></td>
+                                    <td><span>End Date: {{ event.end_date }}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span>Venue: {{ event.venue }}</span></td>
+                                    <td><span>Scheduled Status: {{ event.scheduled_status }}</span></td>
+                                    <td><span>Maximum Attende: {{ event.maximum_attende }}</span></td>
+                                    <td><span>  <button onclick="generateMeetLink()">Google Meet Link</button> </span></td>
+                                </tr>
+                            </table>
+                            <p>{{ event.description|safe }}</p>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="footer text-center m-2">
+                    <a href="{% url 'event-list' %}" class="btn btn-success">Back to Event List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+  <script>
+    function generateMeetLink() {
+      // Replace 'YOUR_API_KEY' with your actual API key
+      const apiKey = 'AIzaSyDf4wM_uQjonDTJHGO8hB5Nc_SI6FJNCnU';
+
+      // Generate a Google Meet link
+      const meetLink = 'https://meet.google.com/' + generateRandomString();
+
+      // Open the Google Meet link in a new tab
+      window.open(meetLink, '_blank');
+
+      // You can also log the link to the console or use it as needed
+      console.log('Google Meet link:', meetLink);
+    }
+
+    function generateRandomString() {
+      // Function to generate a random string for the Meet link
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      for (let i = 0; i < 10; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return result;
+    }
+  </script>
+{% endblock content %}
